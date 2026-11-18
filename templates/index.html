@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAQAS DOWNLOADER - Real</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#0f0f1a;color:#fff;text-align:center;padding:20px}
+.logo{font-size:32px;font-weight:900;margin:25px 0 5px}.logo span{color:#ff0050}
+.box{background:#1c1c2e;padding:20px;border-radius:15px;max-width:600px;margin:20px auto}
+input{width:100%;padding:15px;border-radius:10px;border:none;outline:none;font-size:16px}
+button{width:100%;padding:15px;margin-top:12px;border:none;border-radius:10px;background:#ff0050;color:#fff;font-size:18px;font-weight:bold;cursor:pointer}
+.plat{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:20px 0}
+.plat div{background:#262640;padding:8px 15px;border-radius:20px;font-size:13px}
+#result{display:none;background:#2a2a40;padding:15px;border-radius:12px;margin-top:15px;text-align:left}
+#result img{width:100%;border-radius:10px;margin-top:10px}
+.dl{display:block;background:#00c853;color:#fff;padding:12px;border-radius:10px;text-decoration:none;margin-top:12px;text-align:center;font-weight:bold}
+.dl2{display:block;background:#2196F3;color:#fff;padding:12px;border-radius:10px;text-decoration:none;margin-top:8px;text-align:center;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="logo">WAQAS <span>DOWNLOADER</span></div>
+<p>Real Downloader - No Watermark - 100% Free</p>
+<div class="plat"><div>TikTok</div><div>Instagram</div><div>Facebook</div><div>YouTube</div><div>Twitter / X</div><div>Pinterest</div></div>
+<div class="box">
+<input type="text" id="link" placeholder="Yahan link paste karo...">
+<button onclick="getVideo()">GET VIDEO ⬇️</button>
+<div id="result">
+<p id="status"></p>
+<img id="thumb" style="display:none">
+<a id="dlBtn" class="dl" href="#" target="_blank">Download Direct - HD</a>
+<a id="dlBtn2" class="dl2" href="#" target="_blank">Download Via Server (Agar Upar Wala Na Chale)</a>
+</div>
+</div>
+<script>
+async function getVideo(){
+  let link=document.getElementById('link').value;
+  if(!link){alert("Pehle link paste karo!");return;}
+  document.getElementById('status').innerText="Video dhoond rahe hain... 5 sec wait karo...";
+  document.getElementById('result').style.display='block';
+  let res=await fetch('/api/info?url='+encodeURIComponent(link));
+  let data=await res.json();
+  if(data.status=='success'){
+    document.getElementById('status').innerText="✅ "+data.title+" - By: "+data.uploader;
+    let th=document.getElementById('thumb'); th.src=data.thumbnail; th.style.display='block';
+    document.getElementById('dlBtn').href=data.video_url;
+    document.getElementById('dlBtn2').href='/api/download?url='+encodeURIComponent(link);
+  } else {
+    document.getElementById('status').innerText="❌ "+data.message;
+  }
+}
+</script>
+</body>
+  </html>
